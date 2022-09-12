@@ -20,8 +20,8 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
       - name: ssh and sudo
-        run: echo "$SSH_PRIVATE_KEY" > OneNineAI.pem && chmod 400 OneNineAI.pem
-          ssh -o StrictHostKeyChecking=no -i "OneNineAI.pem" ${REMOTE_USER}@${REMOTE_HOST}
-
-          sudo -s
-          echo $pwd
+        run: echo "$SSH_PRIVATE_KEY" > OneNineAI.pem && chmod 400 OneNineAI.pem &&
+             ssh -o StrictHostKeyChecking=no -i "OneNineAI.pem" ${REMOTE_USER}@${REMOTE_HOST}
+             
+             sudo -s
+             echo $pwd
