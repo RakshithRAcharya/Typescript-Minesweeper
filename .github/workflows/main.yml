@@ -13,15 +13,15 @@ jobs:
   deploy-1:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: test.onenine.cloud deploy changes 
+      - name: test.onenine.cloud deploy changes
+        uses: shimataro/ssh-key-action@v2
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${REMOTE_HOST}
+      - name: ssh and sudo
+        run: echo "$SSH_PRIVATE_KEY" > OneNineAI.pem && chmod 400 OneNineAI.pem
+          ssh -o StrictHostKeyChecking=no -i OneNineAI.pem ${REMOTE_USER}@${REMOTE_HOST}
 
           sudo -s
           echo $pwd
