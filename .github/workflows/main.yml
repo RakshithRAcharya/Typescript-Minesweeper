@@ -14,12 +14,15 @@ on:
       bucketName:
         description: "S3 Bucket Name"
         required: true
-      DBInstanceIdentifier:
-        description: "RDS Postgres Identifier"
+      DNSName:
+        description: "Domain Name"
         required: true
+#       DBInstanceIdentifier:
+#         description: "RDS Postgres Identifier"
+#         required: true
 
 jobs:
-  deploy-1:
+  cloudFormation-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code from master branch
@@ -45,14 +48,17 @@ jobs:
         with:
           name: ec2-deploy
           template: ec2.yaml
-      - name: Deploy RDS Instance from AWS CloudFormation
-        id: rds
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
-        with:
-          name: rds-deploy
-          template: db.yaml
-          parameter-overrides: DBInstanceIdentifier=${{ github.event.inputs.DBInstanceIdentifier }}
-        
-      
-        
-      
+#       - name: Deploy RDS Instance from AWS CloudFormation
+#         id: rds
+#         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+#         with:
+#           name: rds-deploy
+#           template: db.yaml
+#           parameter-overrides: DBInstanceIdentifier=${{ github.event.inputs.DBInstanceIdentifier }}
+      - name: Create DNS Entry
+        id: dns
+        run: |
+          curl -X 'PATCH' 'https://api.godaddy.com/v1/domains/onenine.cloud/records' -H 'accept: application/json' -H 'Content-Type: application/json' -H 'Authorization: sso-key ${{ secrets.DNS_ACCESS_KEY }}:${{ secrets.DNS_SECRET_KEY }} --data '[{"type": "A","name": ${{ github.event.inputs.DNSName }}, "data": ${{ steps.ec2.outputs.InstanceIPAddress }},"ttl": 3600}]'
+   
+   
+   
