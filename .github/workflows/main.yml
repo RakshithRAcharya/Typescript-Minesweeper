@@ -10,10 +10,10 @@ on:
       region:
         description: "AWS Region"
         required: true
-        default: "us-east-2"
-      bucketName:
-        description: "S3 Bucket Name"
-        required: true
+#         default: "us-east-2"
+#       bucketName:
+#         description: "S3 Bucket Name"
+#         required: true
       DNSName:
         description: "Domain Name"
         required: true
@@ -35,13 +35,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ github.event.inputs.region }}
-      - name: Create S3 Bucket with AWS CloudFormation
-        id: s3
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
-        with:
-          name: s3-deploy
-          template: s3.yaml
-          parameter-overrides: BucketName=${{ github.event.inputs.bucketName }}
+#       - name: Create S3 Bucket with AWS CloudFormation
+#         id: s3
+#         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
+#         with:
+#           name: s3-deploy
+#           template: s3.yaml
+#           parameter-overrides: BucketName=${{ github.event.inputs.bucketName }}
       - name: Deploy EC2 Instance from AWS CloudFormation
         id: ec2
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
