@@ -10,7 +10,7 @@ on:
       region:
         description: "AWS Region"
         required: true
-#         default: "us-east-2"
+        default: "us-east-2"
 #       bucketName:
 #         description: "S3 Bucket Name"
 #         required: true
