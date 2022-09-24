@@ -17,9 +17,9 @@ on:
 #       DNSName:
 #         description: "Domain Name"
 #         required: true
-      DBInstanceIdentifier:
-        description: "RDS Postgres Identifier"
-        required: true
+#       DBInstanceIdentifier:
+#         description: "RDS Postgres Identifier"
+#         required: true
 
 jobs:
   cloudFormation-deploy:
@@ -40,12 +40,14 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           template: s3.yaml
+          name: s3-deploy-${RANDOM}
           parameter-overrides: BucketName=${{ github.event.inputs.bucketName }}
       - name: Deploy EC2 Instance from AWS CloudFormation
         id: ec2
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           template: ec2.yaml
+          name: ec2-deploy-${RANDOM}
 #       - name: Deploy RDS Instance from AWS CloudFormation
 #         id: rds
 #         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
