@@ -40,14 +40,14 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           template: s3.yaml
-          name: s3-deploy-${RANDOM}
+          name: s3-deploy-${{github.run_id}}
           parameter-overrides: BucketName=${{ github.event.inputs.bucketName }}
       - name: Deploy EC2 Instance from AWS CloudFormation
         id: ec2
         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
         with:
           template: ec2.yaml
-          name: ec2-deploy-${RANDOM}
+          name: ec2-deploy-${{github.run_id}}
 #       - name: Deploy RDS Instance from AWS CloudFormation
 #         id: rds
 #         uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3
